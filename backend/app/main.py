@@ -8,7 +8,7 @@ class Event(BaseModel):
     user_id: str
     type: str
 
-
+"""
 @app.post("/events")
 def create_event(event: Event):
 
@@ -27,3 +27,28 @@ def create_event(event: Event):
     return {"message": "Event created"}
 
 
+"""
+@app.get("/events")
+def get_events(user_id: str = None, type: str = None):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT * FROM events WHERE 1=1"
+    params = []
+
+    if user_id:
+        query += " AND user_id = %s"
+        params.append(user_id)
+
+    if type:
+        query += " AND type = %s"
+        params.append(type)
+
+    cursor.execute(query, tuple(params))
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return rows

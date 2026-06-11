@@ -16,3 +16,4 @@
 
 
 # pour tester l'API
+# Creation d'un événement  avec la méthode POST/events
